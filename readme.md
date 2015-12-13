@@ -40,7 +40,8 @@ The Network class provide many functions and attributes such as:
   ```
 ### Device object
 The `Device` object represent a device in a local network can be used to perform actions such as:
-  - ARP Poison:
+  - ARP Poison: The `poison_arp` method will poison the ARP entry related to default gateway if no argument is passed.
+  Note that the method will spwn a new thread and keep sending ARP `who_has` requests forever.
   ```python
   try:
       dev = net.get_device(ip='192.168.1.5')
@@ -49,9 +50,7 @@ The `Device` object represent a device in a local network can be used to perform
   else:
       dev.poison_arp()
   ```
-  The `poison_arp` method will poison the ARP entry related to default gateway if no argument is passed.
-  Note that the method will spwn a new thread and keep sending ARP `who_has` requests forever
-  - Intercept request:
+  - Intercept request: For now `nethme` only support the `http_request` event
   ```python
   def http_handler(device, http_request):
       print("Got http request packet from:", device)
@@ -64,7 +63,6 @@ The `Device` object represent a device in a local network can be used to perform
   else:
       victim.intercept('http_request', http_handler)
   ```
-  For now `nethme` only support the `http_request` event
 
 # Status
 Now `Nethme` is being developed only by me and only support basic things, the project is not very stable and may be buggy sometimes.
