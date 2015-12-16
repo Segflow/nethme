@@ -40,7 +40,7 @@ for device in net:
 ```
 ### Device object
 The `Device` object represent a device in a local network can be used to perform actions such as:
-  - ARP Poison: The `poison_arp` method will poison the ARP entry related to default gateway if no argument is passed.
+  * ARP Poison: The `poison_arp` method will poison the ARP entry related to default gateway if no argument is passed.
   Note that the method will spwn a new thread and keep sending ARP `who_has` requests forever.
 ```python
 try:
@@ -50,7 +50,7 @@ except DeviceNotFoundException as e:
 else:
       dev.poison_arp()
 ```
-  - Intercept request: For now `nethme` only support the `http_request` event
+  * Intercept request: For now `nethme` only support the `http_request` event
 ```python
 def http_handler(device, http_request):
       print("Got http request packet from:", device)
@@ -68,6 +68,7 @@ Now `Nethme` is being developed only by me and only support basic things, the pr
 
 # TODO:
 - Implement other host discovery methods
+- Follow tcp stream
 - Write installation guide
 - Check open ports/services on a given device
 - Comment the code

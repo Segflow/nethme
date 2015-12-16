@@ -9,6 +9,7 @@ from exceptions import *
 
 conf.verb = sr_verbose
 
+
 class CacheManager:
 
     def __init__(self):
@@ -29,15 +30,15 @@ class CacheManager:
     def __str__(self):
         return str(self.base)
 
-
     def inverse_get(self, value):
         for key, val in self.base.items():
             if val == value:
                 return key
 
+
 class Network:
 
-    def __init__(self, iface = 'en0', discovery_method='ARP'):
+    def __init__(self, iface='en0', discovery_method='ARP'):
         self.iface = iface
         self.arpcache = CacheManager()
         self._this_device = None
@@ -78,7 +79,6 @@ class Network:
     def populate_arpcache(self):
         pass
 
-
     """
     ARP Based host discovery
     """
@@ -114,7 +114,7 @@ class Network:
     """
     Use ARP who_has request to resolve device by ip
     """
-    def get_device_by_ip(self, ip, timeout = 10, resolve = False):
+    def get_device_by_ip(self, ip, timeout=10, resolve=False):
         if resolve or ip not in self.arpcache:
             this_dev = self.this_device
             arp = Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(pdst=ip)
@@ -129,7 +129,7 @@ class Network:
     Return the local device
     """
     @property
-    def this_device(self, resolve = False):
+    def this_device(self, resolve=False):
         if resolve or not self._this_device:
             mac = get_if_hwaddr(self.iface)
             routes = list(filter(lambda r: r[3] == self.iface, conf.route.routes))
@@ -149,8 +149,6 @@ class Network:
                 self._gateway = self.get_device(ip=ip)
         return self._gateway
 
-
-
     """
     TODO: Return all devices in network
     """
@@ -160,7 +158,7 @@ class Network:
 
 class Device:
 
-    def __init__(self, mac, ip = None, network = None):
+    def __init__(self, mac, ip=None, network=None):
         self.mac = mac
         self.ip = ip
         if not self.ip:
@@ -169,13 +167,12 @@ class Device:
         self.network = network
         self.arp_poisoning = False
 
-
     """
     ARP poison the device
     """
     @post_sleep(1)
     @async
-    def poison_arp(self, fake_mac = None, spoofed_ip = None, period=3):
+    def poison_arp(self, fake_mac=None, spoofed_ip=None, period=3):
         self.arp_poisoning = True
         if not fake_mac:
             fake_mac = self.network.this_device.mac
@@ -192,13 +189,12 @@ class Device:
     """
     @async
     def intercept(self, event, handler):
-        if not self.arp_poisoning:
+        if not self.arp_poisoning and self is not self.network.this_device:
             print("Target {} is no poisoned!".format(self))
             return
         packet_filter = event_packet_filter(event, ip=self.ip)
         hanler_fn = partial(handler, self)
-        sniff(iface=self.network.iface, filter=packet_filter, prn=hanler_fn)
-
+        sniff(iface=self.network.iface, lfilter=lambda x: HTTP in x, filter=packet_filter, prn=hanler_fn)
 
     @property
     def name(self):

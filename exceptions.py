@@ -6,6 +6,8 @@ class DeviceNotFoundException(Exception):
 
     def __str__(self):
         return self.msg
+
+
 class EventNotSupported(Exception):
 
     def __init__(self, event):
