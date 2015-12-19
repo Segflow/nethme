@@ -4,6 +4,17 @@ Nethme aim to make network hacking easy by providing classes such as `Network` a
 
 `Nethme` is written in `python` and uses `scapy` for packets crafting and manipulation.
 
+# 
+
+## How to get started
+
+1. clone this repo
+
+2. install all the necessary packages (best done inside of a virtual environment)
+> pip install -r requirements.txt
+
+3. if you like this project, give it a star :)
+
 
 ## How to use
 
