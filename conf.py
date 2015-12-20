@@ -8,7 +8,7 @@ known_hosts_file = 'known_hosts'
 known_hosts = {}
 
 # Parse Known hosts file
-with open(known_hosts_file) as f:
+with open(known_hosts_file, 'w+') as f:
     for host in f:
         mac, name = tuple([entry.strip() for entry in host.split('-')])
         known_hosts[mac] = name
