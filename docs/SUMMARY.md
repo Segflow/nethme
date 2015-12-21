@@ -1,4 +1,4 @@
 # Summary
 
-* [Network](documentation/network.md)
-* [Device](documentation/device.md)
+* [Network](network.md)
+* [Device](device.md)
