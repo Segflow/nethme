@@ -1,2 +1,0 @@
-
-# TODO: About network objects

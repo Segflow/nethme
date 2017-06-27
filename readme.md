@@ -11,7 +11,9 @@ Nethme aims to make network hacking easy by providing a single, yet powerfull AP
 2. install all the necessary packages (we recommend using a virtual environment)
 > pip install -r requirements.txt
 
-3. if you like this project, give it a star :)
+3. check the `examples` folder and start Hacking.
+
+4. if you like this project, give it a star :)
 
 
 ## How to use
